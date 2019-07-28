@@ -1,3 +1,58 @@
 <body>
-    <p>Hello!</p>
+    <h1>Popular Topics on Medium</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Article Title</th>
+                <th>Article Summary</th>
+                <th>Article Link</th>
+                <th>Article Comments</th>
+            </tr>
+        </thead>
+        <tbody id="tableMain">
+            <tr>
+                <td>Example</td>
+                <td>Example</td>
+                <td>Example</td>
+                <td><button class="commentButton" data-toggle="modal" data-target="#comment">Edit</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="modal fade" id="comment" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="commentTitle">Editing: </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="commentBody">
+                    <h1 id="commentHead">Comments</h1>
+                    <div id="currentComments">
+                        <h1 id="titleinput"></h1>
+                        <p id="bodyinput"></p>
+
+
+                    </div>
+                    <div class="form-group">
+                        <label for="newCommentTitle">New Comment</label>
+                        <input type="text" class="form-control" id="newCommentTitle" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="newCommentBody">New Comment</label>
+                        <input type="text" class="form-control" id="newCommentBody" placeholder="">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        id="commentSubmit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/assets/js/app.js"></script>

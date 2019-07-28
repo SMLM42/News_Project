@@ -2,12 +2,16 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const mongoose = require("mongoose");
+const axios = require("axios")
 
 app.set('views', path.join(__dirname, 'views'));
 
 const exphbs = require('express-handlebars');
 
 mongoose.connect("mongodb://localhost/newsProject", { useNewUrlParser: true })
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 
 app.engine('handlebars', exphbs({
     defaultLayout: 'main'
@@ -40,3 +44,4 @@ app.listen(port, function () {
 })
 
 module.exports = app;
+module.exports = axios
