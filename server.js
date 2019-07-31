@@ -7,8 +7,8 @@ const axios = require("axios")
 app.set('views', path.join(__dirname, 'views'));
 
 const exphbs = require('express-handlebars');
-
-mongoose.connect("mongodb://localhost/newsProject", { useNewUrlParser: true })
+let MONGODB_URI = (process.env.MONGODB_URI || "mongodb://localhost/newsProject")
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
@@ -38,7 +38,7 @@ app.use(function (err, req, res, next) {
     })
 });
 
-const port = 1353;
+const port = process.env.PORT || 1353;
 app.listen(port, function () {
     console.log("listening on port" + port)
 })
