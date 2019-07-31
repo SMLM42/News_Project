@@ -10,8 +10,9 @@ $(document).ready(function () {
 
         $.getJSON("/articles", function (data) {
             // $.get("/articles", function (data) {
-            let test = data;
-            if (!test || (test.length = 0)) {
+            let test = data.data;
+
+            if (!test || (test.length === 0)) {
                 console.log("nope")
             }
             else {
@@ -44,6 +45,8 @@ $(document).ready(function () {
     $(document.body).on("click", ".commentButton", function () {
         let entry = JSON.parse($(this).attr("data"))
         const target = entry._id
+        $("#titleinput").empty();
+        $("#bodyinput").empty();
         $("#commentSubmit").val(target)
         $.ajax({
             method: "GET",

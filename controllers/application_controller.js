@@ -5,12 +5,12 @@ exports.home = function (req, res) {
     res.render('index')
 }
 exports.scrape = function (req, res) {
-    console.log("a")
+    console.log("Scraping")
     axios.get("https://medium.com/topic/popular").then(function (response) {
 
         const $ = cheerio.load(response.data);
 
-        $(".dt").each(function (i, element) {
+        $(".dr").each(function (i, element) {
             let result = {};
 
             result.title = $(element).children("h3").text();
@@ -18,19 +18,39 @@ exports.scrape = function (req, res) {
             result.summary = $(element).children("div").children("p").text();
 
             result.link = $(element).children("div").children("p").children("a").attr("href");
+            let link = result.link
 
-            // result.comment = { title: "bleh", body: "meh" }
-            if ((result.title != "") && (result.summary != "") && (result.link != undefined)) {
-                db.Article.create(result)
-                    .then(function (dbArticle) {
-                        console.log(dbArticle);
-                        console.log(i)
-                    })
-                    .catch(function (err) {
-                        console.log(err);
-                    });
+            if (link != undefined) {
+                // console.log(link)
+                let linkTest = link.substring(0, 1)
+                if (linkTest === "/") {
+                    result.link = ("https://medium.com" + link)
+                }
+                if ((result.title != "") && (result.summary != "")) {
+
+                    db.Article.findOne({ title: result.title })
+                        .then(function (check) {
+                            // console.log(a)
+                            if (check === null) {
+                                console.log("made it!!")
+                                db.Article.create(result)
+                                    .then(function (dbArticle) {
+                                        console.log(dbArticle);
+                                        console.log(i)
+                                    })
+                                    .catch(function (err) {
+                                        console.log(err);
+                                    });
+                            }
+                        }).catch(function (err) {
+                            console.log(err)
+                        })
+                }
             }
+            // result.comment = { title: "bleh", body: "meh" }
+
         });
+        res.send("Finished Scraping, please go to home page to see results");
     });
 
 }
@@ -54,6 +74,7 @@ exports.loadComments = function (req, res) {
     db.Article.findOne({ _id: req.params.id })
         // ..and populate all of the notes associated with it
         .populate("comment")
+        // console.log(res)
         .then(function (dbArticle) {
             // If we were able to successfully find an Article with the given id, send it back to the client
             res.json(dbArticle);
